@@ -40,6 +40,7 @@ public class Maps extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference("LSPI").child("78:21:84:C6:87:10") ;
 
         // Initialize map view

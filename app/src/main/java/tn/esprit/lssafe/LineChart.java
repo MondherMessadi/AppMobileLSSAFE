@@ -29,6 +29,7 @@ public class LineChart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_chart);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mChart = findViewById(R.id.chart);
         mChart.getDescription().setEnabled(false);
         mChart.setTouchEnabled(true);

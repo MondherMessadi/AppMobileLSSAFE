@@ -40,6 +40,7 @@ public class BarChar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_char);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDatabase = FirebaseDatabase.getInstance().getReference("LSPI").child("78:21:84:C6:87:10");
         locationCountMap = new HashMap<>();
 
@@ -137,5 +138,6 @@ public class BarChar extends AppCompatActivity {
         mChart.animateY(500);
         mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
     }
+
 }
 

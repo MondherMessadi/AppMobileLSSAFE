@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView registre, forgotPassword ;
@@ -59,17 +65,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         forgotPassword=(TextView)findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
 
+
         if(mAuth.getCurrentUser() != null){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user.isEmailVerified()){
-                startActivity(new Intent(getApplicationContext(),Profil.class));
-                finish();
-            }
-            else {
-                //Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("User").child(user.getUid());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String role = snapshot.child("role").getValue(String.class);
+                            if (role != null) {
+                                if (role.equals("user")) {
+                                    startActivity(new Intent(MainActivity.this,MenUser.class));
+                                    finish();
+
+                                } else if (role.equals("admin")) {
+                                    startActivity(new Intent(MainActivity.this,MenuTable.class));
+                                    finish();
+
+                                }
+
+                    }}}
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+
+                });
+
             }
 
-        }
+/*
+                if (role != null) {
+                    if (role.equals("user")) {
+                        startActivity(new Intent(MainActivity.this,MenUser.class));
+                        finish();
+                    } else if (role.equals("admin")) {
+                        startActivity(new Intent(MainActivity.this,MenuTable.class));
+                        finish();
+                    }
+                }
+*/
+                //startActivity(new Intent(MainActivity.this,MenUser.class));
+
+
+
+            }else {
+                //Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
+
+
+
+
 
 
         loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
@@ -82,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             remember.setChecked(true);
         }
 
-    }
+    }}
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View v = getCurrentFocus();
@@ -136,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     loginPrefsEditor.putString("password", password);
                     loginPrefsEditor.commit();
                 } else {
-                    loginPrefsEditor.clear();
-                    loginPrefsEditor.commit();
+                  //  loginPrefsEditor.clear();
+               //     loginPrefsEditor.commit();
                 }
             }
             userConect();
@@ -184,9 +232,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user.isEmailVerified()){
-                        startActivity(new Intent(MainActivity.this,Profil.class));
-                        progressBar.setVisibility((View.GONE));
-                    }
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("User").child(user.getUid());
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    String role = snapshot.child("role").getValue(String.class);
+                                    if (role != null) {
+                                        if (role.equals("user")) {
+                                            startActivity(new Intent(MainActivity.this,MenUser.class));
+                                            progressBar.setVisibility((View.GONE));
+                                        } else if (role.equals("admin")) {
+                                            startActivity(new Intent(MainActivity.this,MenuTable.class));
+                                            progressBar.setVisibility((View.GONE));
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this,"No role found for user!",Toast.LENGTH_LONG).show();
+
+                                    }
+                                } else {
+                                    Toast.makeText(MainActivity.this,"Please check your credentials!",Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility((View.GONE));
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+
+                            }
+
+                        });
+                                    progressBar.setVisibility((View.GONE));
+                                }
+
+
                     else {
                         user.sendEmailVerification();
                         Toast.makeText(MainActivity.this,"Check your email to verify your account",Toast.LENGTH_LONG).show();

@@ -40,6 +40,8 @@ public class Statistique extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistique);
+        getSupportActionBar().setTitle("Etat drone");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         temp = findViewById(R.id.longitude);

@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="false"
@@ -20,32 +22,56 @@
         android:theme="@style/Theme.LSSAFE"
         tools:targetApi="31">
         <activity
-            android:name=".Heartbeat"
+            android:name=".Messages"
             android:exported="false" />
+        <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".MenUser"
+            android:exported="false" />
+        <activity
+            android:name=".AboutUs"
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
+        <activity
+            android:name=".MenuTable"
+            android:exported="false" />
+        <activity
+            android:name=".Heartbeat"
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".LineChart"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".Maps"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".BarChar"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".EditProfil"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".Cameratyha"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".Statistique"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".Profil"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MenuTable" />
         <activity
             android:name=".Register"
             android:exported="false" />
@@ -61,7 +87,7 @@
         </activity>
 
         <service
-            android:name=".push_notification"
+            android:name=".PushNotification"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

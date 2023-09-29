@@ -28,6 +28,8 @@ public class Heartbeat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heartbeat);
+        getSupportActionBar().setTitle("Heartbeat");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mChart = findViewById(R.id.chart);
         mChart.getDescription().setEnabled(false);
         mChart.setTouchEnabled(true);

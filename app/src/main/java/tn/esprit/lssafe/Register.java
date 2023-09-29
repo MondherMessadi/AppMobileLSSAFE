@@ -23,8 +23,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hbb20.CountryCodePicker;
+
+import java.util.HashMap;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
@@ -123,6 +126,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String phone = Phone.getText().toString().trim();
         String ceinture ="";
         String serial ="";
+        String role ="user";
         String password = Password.getText().toString().trim();
         String conpassword = CPassword.getText().toString().trim();
 
@@ -195,10 +199,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                User user = new User(fullName,phone, email,ceinture ,serial);
-                                FirebaseDatabase.getInstance().getReference("User")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                String userid = firebaseUser.getUid() ;
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(userid) ;
+                                HashMap<String,String> hashMap = new HashMap<>() ;
+                                hashMap.put("id",userid) ;
+                                hashMap.put("fullName",fullName) ;
+                                hashMap.put("phone",phone) ;
+                                hashMap.put("ceinture",ceinture) ;
+                                hashMap.put("email",email) ;
+                                hashMap.put("role","user") ;
+                                hashMap.put("serial",serial) ;
+                                hashMap.put("imageURL","default") ;
+                                reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 FirebaseUser usere = FirebaseAuth.getInstance().getCurrentUser();

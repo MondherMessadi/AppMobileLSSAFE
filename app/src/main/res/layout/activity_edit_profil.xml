@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/edititatt"
+    android:background="@drawable/fourya"
     tools:context=".EditProfil">
 
     <androidx.cardview.widget.CardView

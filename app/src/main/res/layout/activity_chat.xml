@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".Chat">
 
+
+
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/tab_layout_description"
+        app:tabSelectedTextColor="@color/lavender"
+        app:tabIndicatorColor="@color/lavender"
+        tools:ignore="MissingConstraints" />
+
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

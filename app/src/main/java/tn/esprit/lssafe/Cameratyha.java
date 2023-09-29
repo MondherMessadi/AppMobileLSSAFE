@@ -22,13 +22,15 @@ public class Cameratyha extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cameratyha);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         superProgressBar=findViewById(R.id.myProgressBar);
         superImageView=findViewById(R.id.myImageView);
         superWebView=findViewById(R.id.myWebView);
 
+
         superProgressBar.setMax(100);
-        superWebView.loadUrl("http://172.20.10.3:8000");
+        superWebView.loadUrl("http://172.20.10.6:8000");
         superWebView.getSettings().setJavaScriptEnabled(true);
 
         superWebView.getSettings().setLoadWithOverviewMode(true);

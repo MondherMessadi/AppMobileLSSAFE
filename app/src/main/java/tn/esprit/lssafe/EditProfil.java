@@ -28,6 +28,7 @@ public class EditProfil extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profil);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
